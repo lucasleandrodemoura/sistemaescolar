@@ -26,9 +26,21 @@ public class TelaCadastro extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void alimentaTabela(){
+    public void alimentaTabela(String busca){
+        
+        for(int a = 0; a <100; a++){
+            this.minhatabela.setValueAt("", a, 0);
+            this.minhatabela.setValueAt("", a, 1);
+            this.minhatabela.setValueAt("", a, 2);
+            this.minhatabela.setValueAt("", a, 3);
+        }
+        
+        
         String sql = "SELECT * FROM despesas "
+                + " WHERE descricao LIKE '%"+busca+"%'"
+                
                 + "ORDER BY data_despesa DESC";
+       
         DB db = new DB();
         try {
             ResultSet lerDados = db.lerDados(sql);
@@ -68,6 +80,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         botaoSalvar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         minhatabela = new javax.swing.JTable();
+        campoBusca = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -248,6 +261,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(minhatabela);
 
+        campoBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoBuscaKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -258,7 +277,9 @@ public class TelaCadastro extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 5, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoBusca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -266,8 +287,10 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -298,7 +321,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             else{
                 x.salvar();
                 JOptionPane.showMessageDialog(null, "Registro salvo com sucesso");
-                this.alimentaTabela();
+                this.alimentaTabela("");
             }
             
             
@@ -318,9 +341,15 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.alimentaTabela();
+        this.alimentaTabela("");
         
     }//GEN-LAST:event_formWindowOpened
+
+    private void campoBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscaKeyPressed
+        // TODO add your handling code here:
+      String busca = this.campoBusca.getText();
+        this.alimentaTabela(busca);
+    }//GEN-LAST:event_campoBuscaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -359,6 +388,7 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoSalvar;
+    private javax.swing.JTextField campoBusca;
     private javax.swing.JTextField campoData;
     private javax.swing.JTextField campoDescricao;
     private javax.swing.JTextField campoValor;
