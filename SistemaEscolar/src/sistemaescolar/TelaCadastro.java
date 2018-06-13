@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author Aluno
  */
 public class TelaCadastro extends javax.swing.JFrame {
-
+    private int ID = 0;
     /**
      * Creates new form TelaCadastro
      */
@@ -259,6 +259,11 @@ public class TelaCadastro extends javax.swing.JFrame {
                 "Código", "Data", "Descrição", "Valor"
             }
         ));
+        minhatabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minhatabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(minhatabela);
 
         campoBusca.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -303,6 +308,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         
             
             Despesas x = new Despesas();
+            x.setID(this.ID);
             if(this.campoValor.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Campo valor não preenchido");
             }else{
@@ -322,6 +328,10 @@ public class TelaCadastro extends javax.swing.JFrame {
                 x.salvar();
                 JOptionPane.showMessageDialog(null, "Registro salvo com sucesso");
                 this.alimentaTabela("");
+                this.campoData.setText("");
+                this.campoDescricao.setText("");
+                this.campoValor.setText("");
+                this.ID = 0;
             }
             
             
@@ -350,6 +360,20 @@ public class TelaCadastro extends javax.swing.JFrame {
       String busca = this.campoBusca.getText();
         this.alimentaTabela(busca);
     }//GEN-LAST:event_campoBuscaKeyPressed
+
+    private void minhatabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minhatabelaMouseClicked
+        // TODO add your handling code here:
+        int linha = this.minhatabela.getSelectedRow();
+        String descricao = this.minhatabela.getValueAt(linha, 2)+"";
+        String valor = this.minhatabela.getValueAt(linha, 3)+"";
+        String data = this.minhatabela.getValueAt(linha, 1)+"";
+        
+        
+        this.ID = Integer.parseInt(this.minhatabela.getValueAt(linha, 0)+"");
+        this.campoDescricao.setText(descricao);
+        this.campoValor.setText(valor);
+        this.campoData.setText(data);
+    }//GEN-LAST:event_minhatabelaMouseClicked
 
     /**
      * @param args the command line arguments

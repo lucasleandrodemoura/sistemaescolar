@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * @author Aluno
  */
 public class Despesas {
-    private int ID;
+    private int ID = 0;
     private String descricao;
     private String data_despesa;
     private double valor;
@@ -24,6 +24,7 @@ public class Despesas {
     }
 
     public void setID(int ID) {
+        
         this.ID = ID;
     }
 
@@ -52,13 +53,23 @@ public class Despesas {
     }
     
     
+    
     public void salvar(){
-        String sql = "INSERT INTO despesas "
+        String sql = "";
+        if(this.getID()==0){
+        sql = "INSERT INTO despesas "
                 + "(descricao,valor,data_despesa) "
                 + "VALUES "
                 + "('"+this.getDescricao()+"',"
                 + ""+this.getValor()+","
                 + "'"+this.getData_despesa()+"');";
+        } else {
+          sql = "UPDATE despesas "
+                + " SET descricao = '"+this.getDescricao()+"' "
+                + " , valor = "+this.getValor()+" "
+                + " , data_despesa = '"+this.getData_despesa()+"' "
+                + " WHERE ID =  "+this.getID();  
+        }
         DB x = new DB();
         try {
             x.alteraDados(sql);
