@@ -21,7 +21,7 @@ public class SistemaEscolar {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        new Inicial().setVisible(true);
     }
     
 }

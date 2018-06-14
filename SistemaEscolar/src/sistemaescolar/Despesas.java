@@ -52,7 +52,21 @@ public class Despesas {
         this.valor = valor;
     }
     
-    
+    public void excluir(){
+        String sql = "DELETE FROM despesas"
+                + " WHERE ID = "+this.getID();
+        DB db = new DB();
+        
+        try {
+            db.ConectarBanco();
+            db.alteraDados(sql);
+            db.DesconectarBanco();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Despesas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Despesas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void salvar(){
         String sql = "";

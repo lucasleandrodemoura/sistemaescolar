@@ -22,8 +22,12 @@ public class TelaCadastro extends javax.swing.JFrame {
     /**
      * Creates new form TelaCadastro
      */
+    
     public TelaCadastro() {
+        
         initComponents();
+        this.botaoExcluir.setEnabled(false);
+        
     }
     
     public void alimentaTabela(String busca){
@@ -78,11 +82,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         campoData = new javax.swing.JTextField();
         botaoSalvar = new javax.swing.JButton();
+        botaoExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         minhatabela = new javax.swing.JTable();
         campoBusca = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -110,6 +115,13 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
         });
 
+        botaoExcluir.setText("Excluir");
+        botaoExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -119,17 +131,20 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campoDescricao)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(118, 118, 118)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(botaoExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)))
+                        .addGap(10, 10, 10)
                         .addComponent(botaoSalvar)))
                 .addContainerGap())
         );
@@ -148,7 +163,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botaoSalvar))
+                    .addComponent(botaoSalvar)
+                    .addComponent(botaoExcluir))
                 .addContainerGap())
         );
 
@@ -281,7 +297,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoBusca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -328,9 +344,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                 x.salvar();
                 JOptionPane.showMessageDialog(null, "Registro salvo com sucesso");
                 this.alimentaTabela("");
-                this.campoData.setText("");
-                this.campoDescricao.setText("");
-                this.campoValor.setText("");
+                this.limpaCampos();
                 this.ID = 0;
             }
             
@@ -338,6 +352,12 @@ public class TelaCadastro extends javax.swing.JFrame {
        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
+    private void limpaCampos(){
+                this.campoData.setText("");
+                this.campoDescricao.setText("");
+                this.campoValor.setText("");
+                this.botaoExcluir.setEnabled(false);
+    }
     private void campoDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoDescricaoFocusLost
         // TODO add your handling code here:
         /*
@@ -373,7 +393,24 @@ public class TelaCadastro extends javax.swing.JFrame {
         this.campoDescricao.setText(descricao);
         this.campoValor.setText(valor);
         this.campoData.setText(data);
+        
+        this.botaoExcluir.setEnabled(true);
     }//GEN-LAST:event_minhatabelaMouseClicked
+
+    private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
+        // TODO add your handling code here:
+        int a = JOptionPane.showConfirmDialog(null, "Você deseja excluir este registro?");
+        
+        if(a==0){
+            Despesas desp = new Despesas();
+            desp.setID(this.ID);
+            desp.excluir();
+            this.ID = 0;
+            this.limpaCampos();
+            
+            this.alimentaTabela("");
+        }
+    }//GEN-LAST:event_botaoExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,6 +448,7 @@ public class TelaCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botaoExcluir;
     private javax.swing.JButton botaoSalvar;
     private javax.swing.JTextField campoBusca;
     private javax.swing.JTextField campoData;
