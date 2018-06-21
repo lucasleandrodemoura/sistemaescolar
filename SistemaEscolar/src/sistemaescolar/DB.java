@@ -85,6 +85,18 @@ public class DB {
                 + "data_despesa DATE"
                 + ");");
         
+         statement.executeUpdate("CREATE TABLE IF NOT EXISTS especialidades ("
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "descricao varchar(255)"
+                + ");");
+         
+         
+         statement.executeUpdate("CREATE TABLE IF NOT EXISTS professores ("
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "nome varchar(255),"
+                + "especialidades INTEGER"
+                + ");");
+        
        
         
         

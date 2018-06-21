@@ -5,6 +5,7 @@
  */
 package sistemaescolar;
 
+import sistemaescolar.Telas.Inicial;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;

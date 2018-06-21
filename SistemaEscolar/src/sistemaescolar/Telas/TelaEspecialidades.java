@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemaescolar;
+package sistemaescolar.Telas;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -12,18 +12,21 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import sistemaescolar.DB;
+import sistemaescolar.Despesas;
+import sistemaescolar.Especialidades;
 
 /**
  *
  * @author Aluno
  */
-public class TelaCadastro extends javax.swing.JFrame {
+public class TelaEspecialidades extends javax.swing.JFrame {
     private int ID = 0;
     /**
      * Creates new form TelaCadastro
      */
     
-    public TelaCadastro() {
+    public TelaEspecialidades() {
         
         initComponents();
         this.botaoExcluir.setEnabled(false);
@@ -35,15 +38,14 @@ public class TelaCadastro extends javax.swing.JFrame {
         for(int a = 0; a <100; a++){
             this.minhatabela.setValueAt("", a, 0);
             this.minhatabela.setValueAt("", a, 1);
-            this.minhatabela.setValueAt("", a, 2);
-            this.minhatabela.setValueAt("", a, 3);
+
         }
         
         
-        String sql = "SELECT * FROM despesas "
+        String sql = "SELECT * FROM especialidades "
                 + " WHERE descricao LIKE '%"+busca+"%'"
                 
-                + "ORDER BY data_despesa DESC";
+                + "ORDER BY ID DESC";
        
         DB db = new DB();
         try {
@@ -51,17 +53,16 @@ public class TelaCadastro extends javax.swing.JFrame {
             int cont = 0;
             while(lerDados.next()){
                 this.minhatabela.setValueAt(lerDados.getString("ID"), cont, 0);
-                this.minhatabela.setValueAt(lerDados.getString("data_despesa"), cont, 1);
-                this.minhatabela.setValueAt(lerDados.getString("descricao"), cont, 2);
-                this.minhatabela.setValueAt(lerDados.getString("valor"), cont, 3);
+                this.minhatabela.setValueAt(lerDados.getString("descricao"), cont, 1);
+
                 cont++;
             }
             db.DesconectarBanco();
             
         } catch (SQLException ex) {
-            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaEspecialidades.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaEspecialidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -77,10 +78,6 @@ public class TelaCadastro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         campoDescricao = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        campoValor = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        campoData = new javax.swing.JTextField();
         botaoSalvar = new javax.swing.JButton();
         botaoExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -96,17 +93,13 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastrar"));
 
-        jLabel1.setText("Descrição da despesa");
+        jLabel1.setText("Descrição da especialidade");
 
         campoDescricao.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 campoDescricaoFocusLost(evt);
             }
         });
-
-        jLabel2.setText("Valor");
-
-        jLabel3.setText("Data");
 
         botaoSalvar.setText("Salvar");
         botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -131,19 +124,10 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campoDescricao)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(118, 118, 118)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(botaoExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(botaoExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
                         .addComponent(botaoSalvar)))
                 .addContainerGap())
@@ -157,122 +141,116 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addComponent(campoDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoSalvar)
                     .addComponent(botaoExcluir))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         minhatabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Código", "Data", "Descrição", "Valor"
+                "Código", "Descricao"
             }
         ));
         minhatabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,7 +275,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 27, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoBusca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -308,7 +286,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addComponent(campoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,39 +301,22 @@ public class TelaCadastro extends javax.swing.JFrame {
       
         
             
-            Despesas x = new Despesas();
-            x.setID(this.ID);
-            if(this.campoValor.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "Campo valor não preenchido");
-            }else{
-                double valor = Double.parseDouble(this.campoValor.getText());
-                x.setValor(valor);
-            }
-            x.setDescricao(this.campoDescricao.getText());
-            x.setData_despesa(this.campoData.getText());
-            if(x.getDescricao().equals("")){
-                JOptionPane.showMessageDialog(null, "Campo descrição não preenchido");
-            }
-            else if(x.getData_despesa().equals("")){
-                JOptionPane.showMessageDialog(null, "Campo data não preenchido");
-            }
+           Especialidades x = new Especialidades(this.ID);
+           x.setDescricao(this.campoDescricao.getText());
+           x.salvar();
+           JOptionPane.showMessageDialog(null, "Registro salvo com sucesso");
+           this.alimentaTabela("");
+           this.limpaCampos();
+           this.ID = 0;
             
-            else{
-                x.salvar();
-                JOptionPane.showMessageDialog(null, "Registro salvo com sucesso");
-                this.alimentaTabela("");
-                this.limpaCampos();
-                this.ID = 0;
-            }
             
             
        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void limpaCampos(){
-                this.campoData.setText("");
                 this.campoDescricao.setText("");
-                this.campoValor.setText("");
+              
                 this.botaoExcluir.setEnabled(false);
     }
     private void campoDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoDescricaoFocusLost
@@ -384,15 +345,13 @@ public class TelaCadastro extends javax.swing.JFrame {
     private void minhatabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minhatabelaMouseClicked
         // TODO add your handling code here:
         int linha = this.minhatabela.getSelectedRow();
-        String descricao = this.minhatabela.getValueAt(linha, 2)+"";
-        String valor = this.minhatabela.getValueAt(linha, 3)+"";
-        String data = this.minhatabela.getValueAt(linha, 1)+"";
+  
+        String descricao = this.minhatabela.getValueAt(linha, 1)+"";
         
         
         this.ID = Integer.parseInt(this.minhatabela.getValueAt(linha, 0)+"");
         this.campoDescricao.setText(descricao);
-        this.campoValor.setText(valor);
-        this.campoData.setText(data);
+     
         
         this.botaoExcluir.setEnabled(true);
     }//GEN-LAST:event_minhatabelaMouseClicked
@@ -402,8 +361,8 @@ public class TelaCadastro extends javax.swing.JFrame {
         int a = JOptionPane.showConfirmDialog(null, "Você deseja excluir este registro?");
         
         if(a==0){
-            Despesas desp = new Despesas();
-            desp.setID(this.ID);
+            Especialidades desp = new Especialidades(this.ID);
+
             desp.excluir();
             this.ID = 0;
             this.limpaCampos();
@@ -429,20 +388,21 @@ public class TelaCadastro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaEspecialidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCadastro().setVisible(true);
+                new TelaEspecialidades().setVisible(true);
             }
         });
     }
@@ -451,12 +411,8 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JButton botaoExcluir;
     private javax.swing.JButton botaoSalvar;
     private javax.swing.JTextField campoBusca;
-    private javax.swing.JTextField campoData;
     private javax.swing.JTextField campoDescricao;
-    private javax.swing.JTextField campoValor;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable minhatabela;
