@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import sistemaescolar.DB;
 import sistemaescolar.Despesas;
 import sistemaescolar.Especialidades;
@@ -165,6 +166,11 @@ public class TelaProfessor extends javax.swing.JFrame {
         campoDescricaoEspecialidade.setEditable(false);
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -448,6 +454,19 @@ public class TelaProfessor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        FiltroPadrao filtroPadrao = new FiltroPadrao("especialidades", "descricao",this.campoEspecialidade,this.campoDescricaoEspecialidade);
+        filtroPadrao.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void setCampoEspecialidade(JTextField campoEspecialidade) {
+        this.campoEspecialidade = campoEspecialidade;
+    }
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
